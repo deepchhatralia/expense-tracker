@@ -1,0 +1,31 @@
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header-btns {
+    width: 25%;
+}
+
+#header-btns ul {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    list-style: none;
+}
+
+#header-btns ul li {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#header-btns ul li:hover {
+    transition: all 500ms;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}

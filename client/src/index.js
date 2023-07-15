@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -7,24 +7,51 @@ import './css/app.css';
 
 import { BrowserRouter, RouterProvider, createBrowserRouter } from "react-router-dom";
 
+import { Header, Footer } from './components/index';
 import { Login, Signup, Dashboard, PageNotFound } from './pages';
+
+const Layout = ({ children }) => {
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />
+    element: (
+      <Layout>
+        <App />
+      </Layout>
+    )
   },
   {
     path: "/login",
-    element: <Login />
+    element: (
+      <Layout>
+        <Login />
+      </Layout>
+    )
   },
   {
     path: "/signup",
-    element: <Signup />
+    element: (
+      <Layout>
+        <Signup />
+      </Layout>
+    )
   },
   {
     path: "/dashboard",
-    element: <Dashboard />
+    element: (
+      <Layout>
+        <Dashboard />
+      </Layout>
+    )
   },
   {
     path: "*",

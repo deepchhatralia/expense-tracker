@@ -1,0 +1,40 @@
+.outer-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inner-container {
+    /* height: 50%; */
+    background-color: rgb(200, 207, 213);
+    padding: 40px;
+    border-radius: 3px;
+}
+
+.login-input-fields {
+    padding: 10px 0;
+}
+
+.login-input-fields input {
+    padding: 5px;
+}
+
+.submit-field {
+    padding-top: 15px;
+}
+
+#submit {
+    width: 100%;
+    cursor: pointer;
+    background-color: rebeccapurple;
+    color: #fff;
+    border: none;
+    padding: 10px 0;
+    border-radius: 3px;
+}
+
+#submit:hover {
+    transition: all 1s;
+    transform: scale(1.01);
+}
