@@ -20,6 +20,11 @@ const expenseSchema = new mongoose.Schema({
     note: {
         required: true,
         type: String
+    },
+    date: {
+        require: true,
+        type: String,
+        default: new Date(Date.now()).toLocaleString()
     }
 });
 

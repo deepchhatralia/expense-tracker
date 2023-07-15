@@ -23,6 +23,8 @@ routes.post('/addUser', async (req, res) => {
 
         if (await checkIfUserExist(req.body.email)) {
             exist = 1;
+        } else {
+            const data = await UserModel.create(req.body);
         }
 
         res.json({ success: 1, userExist: exist });
@@ -68,7 +70,7 @@ routes.get('/getCategories', async (req, res) => {
 
 routes.put('/updateCategory', async (req, res) => {
     try {
-        const data = await CategoryModel.findByIdAndUpdate(req.body.oldId, req.body.updatedData);
+        const data = await CategoryModel.findByIdAndUpdate(req.body.id, req.body.updatedData);
 
         res.json({ success: 1 });
     } catch (err) {
@@ -86,6 +88,37 @@ routes.delete('/deleteCategory', async (req, res) => {
             deleted = 1;
 
         res.json({ success: deleted, data });
+    } catch (err) {
+        res.json({ success: 0, msg: err.message });
+    }
+});
+
+
+routes.post('/addExpense', async (req, res) => {
+    try {
+        const data = await ExpenseModel.create(req.body);
+
+        res.json({ success: 1, data });
+    } catch (err) {
+        res.json({ success: 0, msg: err.message });
+    }
+});
+
+routes.put('/updateExpense', async (req, res) => {
+    try {
+        const data = await ExpenseModel.findByIdAndUpdate(req.body.id, req.body.updatedData);
+
+        res.json({ success: 1 });
+    } catch (err) {
+        res.json({ success: 0, msg: err.message });
+    }
+});
+
+routes.delete('/deleteExpense', async (req, res) => {
+    try {
+        const data = await ExpenseModel.findByIdAndDelete(req.body.id);
+
+        res.json({ success: 1 });
     } catch (err) {
         res.json({ success: 0, msg: err.message });
     }
