@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/login.css';
 
-import { addUser, validateUser } from '../utils/fetchData';
+import { addUser, validateUser, checkToken } from '../utils/fetchData';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -10,6 +10,30 @@ const Login = () => {
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
     let [error, setError] = useState("");
+
+    useEffect(() => {
+        const checkTokenIsValid = async (inputToken) => {
+
+            const res = await checkToken(inputToken);
+            // console.log(res)
+            if (res.success) {
+                navigate('/dashboard');
+            }
+        };
+
+        const cookieArray = document.cookie.split(';');
+
+        let cookie = cookieArray.find((cookie) => cookie.trim().startsWith("token" + '='));
+
+        // if (!cookie) {
+        //     navigate('/');
+        //     return;
+        // }
+
+        cookie = cookie.substring(7);
+
+        checkTokenIsValid(cookie);
+    }, []);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();

@@ -1,16 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { addUser } from "../utils/fetchData";
+import { addUser, checkToken } from "../utils/fetchData";
 
 import "../css/login.css";
 
 const Signup = () => {
+    const navigate = useNavigate();
+
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cpassword, setCpassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const checkTokenIsValid = async (inputToken) => {
+
+            const res = await checkToken(inputToken);
+            // console.log(res)
+            if (res.success) {
+                navigate('/dashboard');
+            }
+        };
+
+        const cookieArray = document.cookie.split(';');
+
+        let cookie = cookieArray.find((cookie) => cookie.trim().startsWith("token" + '='));
+
+        // if (!cookie) {
+        //     navigate('/');
+        //     return;
+        // }
+
+        cookie = cookie.substring(7);
+
+        checkTokenIsValid(cookie);
+    }, []);
 
 
     const handleFormSubmission = async (e) => {
