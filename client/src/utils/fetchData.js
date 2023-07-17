@@ -8,4 +8,22 @@ const addUser = async (data) => {
     return res.data;
 };
 
-export { addUser };
+const validateUser = async (data) => {
+    const res = await axios.post(BACKEND_URL + "validateUser", data);
+
+    return res.data;
+};
+
+const checkToken = async (inputToken) => {
+    const config = {
+        headers: {
+            token: inputToken
+        }
+    };
+
+    const res = await axios.get(BACKEND_URL + '/checkToken', config);
+
+    return res.data;
+};
+
+export { addUser, validateUser, checkToken };

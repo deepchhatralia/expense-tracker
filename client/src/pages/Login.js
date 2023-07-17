@@ -1,19 +1,33 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/login.css';
 
-import { addUser } from '../utils/fetchData';
+import { addUser, validateUser } from '../utils/fetchData';
 
 const Login = () => {
+    const navigate = useNavigate();
+
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+    let [error, setError] = useState("");
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
-        let data = await addUser({ email, password });
+        let data = await validateUser({ email, password });
 
-        console.log(data);
-    }
+        if (data.success) {
+            document.cookie = "token=" + data.token;
+            setError("");
+            navigate('/dashboard');
+        } else {
+            setError(val => data.msg);
+        }
+    };
+
+    const handleRegisterClick = () => {
+        navigate('/signup');
+    };
 
     return (
         <>
@@ -40,12 +54,14 @@ const Login = () => {
 
                     <form onSubmit={handleFormSubmit}>
                         <div className="form-outline mb-4">
-                            <input type="email" id="form2Example1" className="form-control" placeholder='Email address' value={email} onChange={e => setEmail(e.target.value)} />
+                            <input type="email" id="form2Example" className="form-control" placeholder='Email address' value={email} onChange={e => setEmail(e.target.value)} />
                         </div>
 
                         <div className="form-outline mb-4">
-                            <input type="password" id="form2Example2" className="form-control" placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} />
+                            <input type="password" id="form2Example" className="form-control" placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} />
                         </div>
+
+                        <p style={{ fontSize: "14px", color: "red", fontStyle: "italic" }}>{error}</p>
 
                         {/* <div className="row mb-4">
                             <div className="col d-flex justify-content-center">
@@ -63,8 +79,8 @@ const Login = () => {
                         <input type="submit" className="btn btn-primary btn-block mb-4 w-100" value="Login" />
 
                         <div className="text-center">
-                            <p>Not a member? <a href="#!">Register</a></p>
-                            <p>or sign up with:</p>
+                            <p>Not a member? <a href="#!" onClick={handleRegisterClick}>Register</a></p>
+                            {/* <p>or sign up with:</p>
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-facebook-f"></i>
                             </button>
@@ -79,7 +95,7 @@ const Login = () => {
 
                             <button type="button" className="btn btn-link btn-floating mx-1">
                                 <i className="fab fa-github"></i>
-                            </button>
+                            </button> */}
                         </div>
                     </form>
                 </div>
