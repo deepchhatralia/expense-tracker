@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { addUser, checkToken } from "../utils/fetchData";
+import { checkIfLoggedIn } from "../utils/checkIfLoggedIn";
 
 import "../css/login.css";
 
@@ -16,27 +17,9 @@ const Signup = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const checkTokenIsValid = async (inputToken) => {
-
-            const res = await checkToken(inputToken);
-            // console.log(res)
-            if (res.success) {
-                navigate('/dashboard');
-            }
-        };
-
-        const cookieArray = document.cookie.split(';');
-
-        let cookie = cookieArray.find((cookie) => cookie.trim().startsWith("token" + '='));
-
-        // if (!cookie) {
-        //     navigate('/');
-        //     return;
-        // }
-
-        cookie = cookie.substring(7);
-
-        checkTokenIsValid(cookie);
+        if (checkIfLoggedIn()) {
+            navigate('/dashboard');
+        }
     }, []);
 
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../css/login.css';
 
 import { addUser, validateUser, checkToken } from '../utils/fetchData';
+import { checkIfLoggedIn } from '../utils/checkIfLoggedIn';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -12,27 +13,10 @@ const Login = () => {
     let [error, setError] = useState("");
 
     useEffect(() => {
-        const checkTokenIsValid = async (inputToken) => {
+        if (checkIfLoggedIn()) {
+            navigate('/dashboard');
+        }
 
-            const res = await checkToken(inputToken);
-            // console.log(res)
-            if (res.success) {
-                navigate('/dashboard');
-            }
-        };
-
-        const cookieArray = document.cookie.split(';');
-
-        let cookie = cookieArray.find((cookie) => cookie.trim().startsWith("token" + '='));
-
-        // if (!cookie) {
-        //     navigate('/');
-        //     return;
-        // }
-
-        cookie = cookie.substring(7);
-
-        checkTokenIsValid(cookie);
     }, []);
 
     const handleFormSubmit = async (e) => {
