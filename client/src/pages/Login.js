@@ -16,7 +16,7 @@ const Login = () => {
         if (checkIfLoggedIn()) {
             navigate('/dashboard');
         }
-
+        // console.log(checkIfLoggedIn());
     }, []);
 
     const handleFormSubmit = async (e) => {

@@ -3,11 +3,14 @@ import { checkToken } from "./fetchData";
 const checkTokenIsValid = async (inputToken) => {
 
     const res = await checkToken(inputToken);
-    // console.log(res)
-    if (res.success) {
-        // navigate('/dashboard');
-        return 1;
-    }
+
+    // if (res.success) {
+    //     // navigate('/dashboard');
+    //     return 1;
+    // }
+    // return 0;
+
+    return res.success;
 };
 
 const checkIfLoggedIn = () => {
