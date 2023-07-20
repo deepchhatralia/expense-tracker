@@ -1,6 +1,6 @@
 import { checkToken } from "./fetchData";
 
-const checkTokenIsValid = async (inputToken) => {
+const checkTokenIsValid = async (inputToken, getUser) => {
 
     const res = await checkToken(inputToken);
 
@@ -10,10 +10,13 @@ const checkTokenIsValid = async (inputToken) => {
     // }
     // return 0;
 
+    if (getUser)
+        return res;
+
     return res.success;
 };
 
-const checkIfLoggedIn = () => {
+const checkIfLoggedIn = (getUser = false) => {
     const cookieArray = document.cookie.split(';');
 
     let cookie = cookieArray.find((cookie) => cookie.trim().startsWith("token" + '='));
@@ -25,7 +28,7 @@ const checkIfLoggedIn = () => {
 
     cookie = cookie.substring(7);
 
-    return checkTokenIsValid(cookie);
+    return checkTokenIsValid(cookie, getUser);
 }
 
 export { checkIfLoggedIn };

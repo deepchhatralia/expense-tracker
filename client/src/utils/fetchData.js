@@ -32,16 +32,18 @@ const getCategories = async () => {
     return res.data;
 };
 
-const getExpenses = async (userToken) => {
-    const config = {
-        headers: {
-            token: userToken
-        }
-    };
+const getExpenses = async (id) => {
+    // here id is userId 
 
-    const res = await axios.get(BACKEND_URL + '/getExpenses', config);
+    const res = await axios.get(BACKEND_URL + '/getExpenses?id=' + id);
 
     return res.data;
 };
 
-export { addUser, validateUser, checkToken, getCategories };
+const addExpense = async (obj) => {
+    const res = await axios.post(BACKEND_URL + '/addExpense', obj);
+
+    return res.data;
+};
+
+export { addUser, validateUser, checkToken, getCategories, getExpenses, addExpense };

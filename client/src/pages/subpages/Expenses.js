@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ShowExpenses from '../../components/ShowExpenses';
 
-import { getCategories } from '../../utils/fetchData';
+import { getCategories, addExpense, getExpenses } from '../../utils/fetchData';
+import { checkIfLoggedIn } from '../../utils/checkIfLoggedIn';
 
 const Expenses = () => {
+    const navigate = useNavigate();
+
+    const [allExpenses, setAllExpenses] = useState([]);
     const [expense, setExpense] = useState("");
 
     const [category, setCategory] = useState(0);
@@ -21,7 +26,39 @@ const Expenses = () => {
 
     useEffect(() => {
         generateCategories();
+        generateExpenses();
     }, []);
+
+    const generateExpenses = async () => {
+        const data = await checkIfLoggedIn(true);
+
+        // if token is expired than it will return 0
+        if (!data.success) {
+            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            navigate('/');
+        }
+
+        const res = await getExpenses(data.userId);
+
+        setAllExpenses(res.data);
+    }
+
+    const addExp = async () => {
+        const user = await checkIfLoggedIn(true);
+
+        // if token is expired than it will return 0
+        if (!user.success) {
+            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            navigate('/');
+        }
+        const obj = { userId: user.userId, category: category, paymentMode: paymentMode, expense: expense, note: note };
+
+        const data = await addExpense(obj);
+
+        setAllExpenses(val => {
+            return { ...val, data }
+        });
+    };
 
     return (
         <>
@@ -58,7 +95,7 @@ const Expenses = () => {
                                 <option value={0} disabled>Select category</option>
 
                                 {categories.map((val, index) => {
-                                    return <option key={index + 1} value={val}>{val.categoryName}</option>
+                                    return <option key={index + 1} value={index + 1}>{val.categoryName}</option>
                                 })}
 
                                 {/* <option value="1">Cash</option>
@@ -80,12 +117,12 @@ const Expenses = () => {
                     <div className="mb-3 row">
                         {/* <label htmlFor="note" className="col-sm-2 col-form-label">Note</label> */}
                         <div className="col-md-7">
-                            <button className='btn btn-primary w-100'>Add</button>
+                            <button onClick={() => addExp()} className='btn btn-primary w-100'>Add</button>
                         </div>
                     </div>
                 </div>
 
-                <ShowExpenses />
+                <ShowExpenses allExpenses={allExpenses} />
             </div >
         </>
     );
