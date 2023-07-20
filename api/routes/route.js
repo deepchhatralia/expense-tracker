@@ -136,6 +136,17 @@ routes.delete('/deleteCategory', async (req, res) => {
 });
 
 
+routes.get('/getExpenses', async (req, res) => {
+    try {
+        const data = await ExpenseModel.find({ userId: req.body.userId });
+
+        res.json({ success: 1, data: data });
+    } catch (err) {
+        res.status(400).json({ success: 0, msg: err.message });
+    }
+});
+
+
 routes.post('/addExpense', async (req, res) => {
     try {
         const data = await ExpenseModel.create(req.body);

@@ -1,0 +1,15 @@
+.list {
+    /* padding: 10px 15px; */
+    transition: all 0.6s;
+    cursor: pointer;
+}
+
+.list:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.content {
+    padding: 10px 15px;
+    font-size: large;
+    font-weight: 500;
+}

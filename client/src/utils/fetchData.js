@@ -26,4 +26,22 @@ const checkToken = async (inputToken) => {
     return res.data;
 };
 
-export { addUser, validateUser, checkToken };
+const getCategories = async () => {
+    const res = await axios.get(BACKEND_URL + '/getCategories');
+
+    return res.data;
+};
+
+const getExpenses = async (userToken) => {
+    const config = {
+        headers: {
+            token: userToken
+        }
+    };
+
+    const res = await axios.get(BACKEND_URL + '/getExpenses', config);
+
+    return res.data;
+};
+
+export { addUser, validateUser, checkToken, getCategories };

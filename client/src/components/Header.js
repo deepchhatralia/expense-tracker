@@ -16,20 +16,24 @@ const Header = () => {
     return (
         <>
             <div id='header'>
-                <h3>Expense Tracker</h3>
+                <h1 className='app-name'>Expense Tracker</h1>
                 <div id="header-btns">
-                    <ul>
-                        <button onClick={handleLoginClick}>
+                    <button onClick={handleLoginClick}>
+                        Login
+                        {/* <ul>
                             <li>
                                 Login
                             </li>
-                        </button>
-                        <button onClick={handleSignupClick}>
+                        </ul> */}
+                    </button>
+                    <button onClick={handleSignupClick}>
+                        Signup
+                        {/* <ul>
                             <li>
                                 Signup
                             </li>
-                        </button>
-                    </ul>
+                        </ul> */}
+                    </button>
                 </div>
             </div>
         </>
