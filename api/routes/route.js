@@ -84,7 +84,13 @@ routes.post('/addCategory', async (req, res) => {
             exist = 1;
         }
 
-        res.json({ success: 1, categoryExist: exist })
+        if (exist) {
+            res.json({ success: 1, categoryExist: exist })
+            return;
+        }
+        const data = await CategoryModel.create(req.body.newData)
+
+        res.json({ success: 1, categoryExist: exist, data: data })
     } catch (err) {
         res.json({ success: 0, msg: err.message });
     }
@@ -92,9 +98,9 @@ routes.post('/addCategory', async (req, res) => {
 
 routes.get('/getCategory', async (req, res) => {
     try {
-        const data = await CategoryModel.find({ _id: req.body.id })
+        const data = await CategoryModel.find({ _id: req.query.id })
 
-        res.json({ success: 1, ...data });
+        res.json({ success: 1, data: data });
     } catch (err) {
         res.json({ success: 0, msg: err.message });
     }
@@ -112,9 +118,9 @@ routes.get('/getCategories', async (req, res) => {
 
 routes.put('/updateCategory', async (req, res) => {
     try {
-        const data = await CategoryModel.findByIdAndUpdate(req.body.id, req.body.updatedData);
+        const data = await CategoryModel.findByIdAndUpdate(req.body.id, req.body.updatedData, { new: true });
 
-        res.json({ success: 1 });
+        res.json({ success: 1, data: data });
     } catch (err) {
         res.json({ success: 0, msg: err.message })
     }
@@ -123,15 +129,29 @@ routes.put('/updateCategory', async (req, res) => {
 routes.delete('/deleteCategory', async (req, res) => {
     try {
         let data = await CategoryModel.findByIdAndDelete(req.body.id);
-
         let deleted = 0;
 
         if (data)
             deleted = 1;
 
-        res.json({ success: deleted, data });
+        res.json({ success: 1, data: data });
     } catch (err) {
         res.json({ success: 0, msg: err.message });
+    }
+});
+
+
+
+
+routes.get('/getExpense', async (req, res) => {
+    try {
+        const id = req.query.id;
+
+        const data = await ExpenseModel.find({ _id: id });
+
+        res.status(200).json({ success: 1, data: data });
+    } catch (err) {
+        res.status(400).json({ success: 0, msg: err.message });
     }
 });
 
@@ -160,9 +180,9 @@ routes.post('/addExpense', async (req, res) => {
 
 routes.put('/updateExpense', async (req, res) => {
     try {
-        const data = await ExpenseModel.findByIdAndUpdate(req.body.id, req.body.updatedData);
+        const data = await ExpenseModel.findByIdAndUpdate(req.body.id, req.body.updatedData, { new: true });
 
-        res.json({ success: 1 });
+        res.json({ success: 1, data: data });
     } catch (err) {
         res.json({ success: 0, msg: err.message });
     }

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { checkIfLoggedIn } from "../utils/checkIfLoggedIn";
-import { getExpenses } from "../utils/fetchData";
-import { all } from "axios";
+// import { checkIfLoggedIn } from "../utils/checkIfLoggedIn";
+// import { getExpenses } from "../utils/fetchData";
+// import { all } from "axios";
 
 import UpdateIcon from '@mui/icons-material/Update';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ShowExpenses = ({ allExpenses = [], deleteExp }) => {
+const ShowExpenses = ({ allExpenses = [], loadExpForUpdate, deleteExp }) => {
     const navigate = useNavigate();
 
     return (
@@ -39,7 +39,7 @@ const ShowExpenses = ({ allExpenses = [], deleteExp }) => {
                                     <td>{paymentMode}</td>
                                     <td>{date}</td>
                                     <td>
-                                        <button className="tableBtns" title="update">
+                                        <button onClick={() => loadExpForUpdate(_id)} className="tableBtns" title="update">
                                             {<UpdateIcon />}
                                         </button>
                                     </td>

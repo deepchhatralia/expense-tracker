@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ShowExpenses from '../../components/ShowExpenses';
 
-import { getCategories, addExpense, getExpenses, deleteExpense } from '../../utils/fetchData';
+import { getCategories, addExpense, getExpense, getExpenses, deleteExpense, updateExpense } from '../../utils/fetchData';
 import { checkIfLoggedIn } from '../../utils/checkIfLoggedIn';
 
 import "../../css/expenses.css";
@@ -11,7 +11,9 @@ const Expenses = () => {
     const navigate = useNavigate();
 
     const mode = ["Cash", "Debit Card", "Credit Card", "UPI"];
+    const [addOrUpdate, setAddOrUpdate] = useState(1);
 
+    const [expId, setExpId] = useState("");
     const [allExpenses, setAllExpenses] = useState([]);
     const [expense, setExpense] = useState("");
 
@@ -23,6 +25,25 @@ const Expenses = () => {
 
     const [error, setError] = useState("");
 
+    const checkValidation = () => {
+        if (!(category && expense && note)) {
+            setError("Please enter all details");
+            return 0;
+        }
+        if (expense == 0) {
+            setError("Invalid expense value");
+            return 0;
+        }
+        setError("");
+        return 1;
+    }
+
+    const clearInputFields = () => {
+        setExpense("");
+        setCategory(0);
+        setPaymentMode("");
+        setNote("");
+    }
 
     const generateCategories = async () => {
         const data = await getCategories();
@@ -53,11 +74,9 @@ const Expenses = () => {
             navigate('/');
         }
 
-        if (!(category && expense && note)) {
-            setError("Please enter all details");
+        if (!checkValidation()) {
             return;
         }
-        setError("");
 
         const obj = { userId: user.userId, category: category, paymentMode: mode[paymentMode], expense: expense, note: note };
 
@@ -66,13 +85,52 @@ const Expenses = () => {
         const data = await addExpense(obj);
 
         setAllExpenses(val => {
-            return [...val, data.data]
+            return [data.data, ...val]
         });
 
-        setExpense("");
-        setCategory(0);
-        setPaymentMode("");
-        setNote("");
+        clearInputFields();
+    };
+
+    const loadExpForUpdate = async (id) => {
+        const res = await getExpense(id);
+        const { _id: _id, category: _category, date: _date, expense: _expense, note: _note, paymentMode: _paymentMode } = res.data[0];
+
+        setExpId(_id);
+        setExpense(_expense);
+        setNote(_note);
+        setCategory(_category);
+        setPaymentMode(_paymentMode);
+
+        // change button text to Update and to fire updateExp event when Update is clicked
+        setAddOrUpdate(0);
+    };
+
+    const updateExp = async () => {
+        if (!checkValidation()) {
+            return;
+        }
+        const obj = { _id: expId, category: category, paymentMode: mode[paymentMode], expense: expense, note: note };
+
+        const res = await updateExpense(expId, obj);
+
+        if (!res.success) {
+            setError("Try again");
+            return;
+        }
+        setError("");
+
+        setAllExpenses(val => {
+            const temp = val.map(data => {
+                if (data._id != res.data._id) {
+                    return data;
+                }
+                return res.data;
+            })
+            return temp;
+        })
+
+        clearInputFields();
+        setExpId("");
     };
 
     const deleteExp = async (id) => {
@@ -146,12 +204,16 @@ const Expenses = () => {
                     <div className="mb-3 row">
                         {/* <label htmlFor="note" className="col-sm-2 col-form-label">Note</label> */}
                         <div className="col-md-7">
-                            <button onClick={() => addExp()} className='btn btn-primary w-100'>Add</button>
+                            <button onClick={() => {
+                                addOrUpdate ? addExp() : updateExp()
+                            }} className='btn btn-primary w-100'>
+                                {addOrUpdate ? "Add" : "Update"}
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <ShowExpenses allExpenses={allExpenses} deleteExp={deleteExp} />
+                <ShowExpenses allExpenses={allExpenses} loadExpForUpdate={loadExpForUpdate} deleteExp={deleteExp} />
             </div >
         </>
     );
