@@ -135,10 +135,10 @@ routes.delete('/deleteCategory', async (req, res) => {
     }
 });
 
-
 routes.get('/getExpenses', async (req, res) => {
     try {
         const id = req.query.id;
+
         const data = await ExpenseModel.find({ userId: id });
 
         res.status(200).json({ success: 1, data: data });

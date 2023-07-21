@@ -1,0 +1,9 @@
+.tableBtns {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.tableBtns:hover {
+    /* opacity: 0.9; */
+    color: #BE97C6;
+}

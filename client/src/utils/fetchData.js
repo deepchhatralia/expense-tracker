@@ -46,4 +46,10 @@ const addExpense = async (obj) => {
     return res.data;
 };
 
-export { addUser, validateUser, checkToken, getCategories, getExpenses, addExpense };
+const deleteExpense = async (_id) => {
+    const res = await axios.delete(BACKEND_URL + '/deleteExpense', { data: { id: _id } });
+
+    return res.data;
+}
+
+export { addUser, validateUser, checkToken, getCategories, getExpenses, addExpense, deleteExpense };

@@ -5,28 +5,11 @@ import { checkIfLoggedIn } from "../utils/checkIfLoggedIn";
 import { getExpenses } from "../utils/fetchData";
 import { all } from "axios";
 
-const ShowExpenses = ({ allExpenses = [] }) => {
+import UpdateIcon from '@mui/icons-material/Update';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const ShowExpenses = ({ allExpenses = [], deleteExp }) => {
     const navigate = useNavigate();
-
-    // const [expenses, setExpenses] = useState([]);
-
-    // const generateExpenses = async () => {
-    //     const data = await checkIfLoggedIn(true);
-
-    //     // if token is expired than it will return 0
-    //     if (!data.success) {
-    //         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    //         navigate('/');
-    //     }
-
-    //     const res = await getExpenses(data.userId);
-
-    //     setExpenses(res.data);
-    // }
-
-    // useEffect(() => {
-    //     generateExpenses();
-    // }, []);
 
     return (
         <>
@@ -40,12 +23,13 @@ const ShowExpenses = ({ allExpenses = [] }) => {
                             <th scope="col">Note</th>
                             <th scope="col">Payment Mode</th>
                             <th scope="col">Date & Time</th>
+                            <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         {allExpenses ? allExpenses.map((val, index) => {
-                            const { category, date, expense, note, paymentMode } = val;
+                            const { _id, category, date, expense, note, paymentMode } = val;
                             return (
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th>
@@ -54,6 +38,16 @@ const ShowExpenses = ({ allExpenses = [] }) => {
                                     <td>{note}</td>
                                     <td>{paymentMode}</td>
                                     <td>{date}</td>
+                                    <td>
+                                        <button className="tableBtns" title="update">
+                                            {<UpdateIcon />}
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => deleteExp(_id)} className="tableBtns" title="delete">
+                                            {<DeleteIcon />}
+                                        </button>
+                                    </td>
                                 </tr>
                             );
                         }) : "No Expenses"}
