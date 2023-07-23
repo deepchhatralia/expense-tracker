@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { checkToken } from '../utils/fetchData';
 import { checkIfLoggedIn } from "../utils/checkIfLoggedIn";
@@ -12,6 +13,9 @@ import { Expenses, Category, Analytics } from './subpages';
 
 
 const Dashboard = () => {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
     const navigate = useNavigate();
 
     const [whichPageCount, setWhichPageCount] = useState(0);
@@ -23,6 +27,17 @@ const Dashboard = () => {
         if (!checkIfLoggedIn()) {
             navigate('/');
         }
+
+        const param = queryParams.get('p');
+        let count = 0;
+
+        if (param == "categories") {
+            count = 1;
+        } else if (param == "analyse") {
+            count = 2;
+        }
+
+        setWhichPageCount(count);
 
         // const checkTokenIsValid = async (inputToken) => {
 

@@ -167,6 +167,19 @@ routes.get('/getExpenses', async (req, res) => {
     }
 });
 
+routes.get('/getExpenseByCategory', async (req, res) => {
+    try {
+        const category = req.query.category;
+        const userId = req.query.userId;
+
+        const data = await ExpenseModel.find({ category: category, userId: userId });
+
+        res.status(200).json({ success: 1, data: data });
+    } catch (err) {
+        res.status(400).json({ success: 0, msg: err.message });
+    }
+});
+
 
 routes.post('/addExpense', async (req, res) => {
     try {

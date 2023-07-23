@@ -70,7 +70,7 @@ const Category = () => {
     };
 
     const deleteCat = async (id) => {
-        if (confirm("Are you sure to delete ??")) {
+        if (window.confirm("Are you sure to delete ??")) {
             let res = await deleteCategory(id);
 
 
