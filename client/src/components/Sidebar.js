@@ -28,13 +28,23 @@ const Sidebar = ({ onSidebarClick }) => {
     // { backgroundColor: "#FBDCE2" }
     return (
         <>
-            <div className="sidebar h-100">
-                {['Expenses', 'Categories', 'Analyse', 'Logout'].map((text, index) => (
 
-                    <div key={index} onClick={() => onSidebarClick(index)} >
-                        <List icon={icons[index]} text={text} />
-                    </div>
-                ))}
+
+            <div className="sidebar h-100">
+                {/* <div class="sidebar"> */}
+                <ul class="nav flex-column">
+
+                    {['Expenses', 'Categories', 'Analyse', 'Logout'].map((text, index) => (
+
+                        // <li class="nav-item">
+                        //     <a class="nav-link" href="#">Settings</a>
+                        // </li>
+                        <div key={index} onClick={() => onSidebarClick(index)} >
+                            <List icon={icons[index]} text={text} />
+                        </div>
+                    ))}
+                </ul>
+                {/* </div> */}
             </div>
         </>
     );

@@ -8,3 +8,24 @@
     background-color: red;
     height: 100%;
 } */
+
+.sidebar {
+    background-color: #212121;
+    color: #fff;
+    padding: 10px;
+    /* border-radius: 5px; */
+}
+
+.sidebar-title {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #000;
+}

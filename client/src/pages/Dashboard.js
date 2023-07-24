@@ -97,7 +97,7 @@ const Dashboard = () => {
                         <Sidebar onSidebarClick={handleSidebarClick} />
                     </div>
 
-                    <div className="col-md-10 dashboard-main-content px-5 py-3">
+                    <div className="col-md-10 h-100 dashboard-main-content px-5 py-3">
                         {subPages[whichPageCount]}
                     </div>
                 </div>
