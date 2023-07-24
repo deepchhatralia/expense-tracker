@@ -93,7 +93,7 @@ const Dashboard = () => {
         <>
             <div className="dashboard-main-container container-fluid">
                 <div className="row">
-                    <div className="col-md-2" style={{ padding: 0 }}>
+                    <div className="col-md-2 h-100" style={{ padding: 0 }}>
                         <Sidebar onSidebarClick={handleSidebarClick} />
                     </div>
 

@@ -25,10 +25,10 @@ const Sidebar = ({ onSidebarClick }) => {
     };
 
     const icons = [<CurrencyRupeeIcon />, <CategoryIcon />, <AddchartIcon />, <LogoutIcon />];
-
+    // { backgroundColor: "#FBDCE2" }
     return (
         <>
-            <div className="sidebar" style={{ backgroundColor: "#FBDCE2" }}>
+            <div className="sidebar h-100">
                 {['Expenses', 'Categories', 'Analyse', 'Logout'].map((text, index) => (
 
                     <div key={index} onClick={() => onSidebarClick(index)} >

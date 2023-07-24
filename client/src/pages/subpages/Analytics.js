@@ -46,6 +46,7 @@ const Analytics = () => {
     const [allCategories, setAllCategories] = useState([]);
     const [categoryData, setCategoryData] = useState({});
     const [paymentModeData, setPaymentModeData] = useState({});
+    const [monthWiseExpenseData, setMonthWiseExpenseData] = useState([0, 0, 0, 0, 0, 0, 500, 0, 0, 0, 0, 0]);
 
     const catData = {
         // labels,
@@ -55,7 +56,7 @@ const Analytics = () => {
                 data: categoryData,
                 backgroundColor: '#5CA4A9',
             }
-        ],
+        ]
     };
 
     const payModeData = {
@@ -80,6 +81,17 @@ const Analytics = () => {
         ],
     };
 
+    const monthWiseData = {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: 'Month wise expenses (Rs.)',
+                data: monthWiseExpenseData,
+                backgroundColor: '#5CA4A9',
+            }
+        ],
+    };
+
     // generateAllExpensesByCategories
     const generate = async (userId) => {
         let _categoryData = {};
@@ -89,8 +101,22 @@ const Analytics = () => {
 
         // let amountSum = 0;
 
+        let temp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
         res.data.map(val => {
             // amountSum += val.expense;
+            const dateString = val.date;
+            const [datePart, timePart] = dateString.split(', ');
+            const [day, month, year] = datePart.split('/');
+            const [time, ampm] = timePart.split(' ');
+            const [hour, minute, second] = time.split(':');
+
+            temp[parseInt(month)] += val.expense;
+
+            // setMonthWiseExpenseData(data => {
+            //     data[Number(month)] += val.expense;
+            //     return data;
+            // });
 
             if (_categoryData[val.category])
                 _categoryData[val.category] += val.expense;
@@ -103,12 +129,14 @@ const Analytics = () => {
             // else
             //     _paymentModeData[val.paymentMode] = val.expense;
 
+            // calculating number of payments made through a particular payment mode
             if (_paymentModeData[val.paymentMode])
                 _paymentModeData[val.paymentMode] += 1;
             else
                 _paymentModeData[val.paymentMode] = 1;
 
         });
+
 
         // converting total amount of each payment mode to percentage for pie chart
         // Object.keys(_paymentModeData).forEach(element => {
@@ -117,6 +145,7 @@ const Analytics = () => {
 
         setCategoryData(_categoryData);
         setPaymentModeData(_paymentModeData);
+        setMonthWiseExpenseData(temp);
     };
 
     const generateUserId = async () => {
@@ -150,6 +179,12 @@ const Analytics = () => {
             <div className='row'>
                 <div className='offset-md-2 col-md-8 mb-5'>
                     <Pie options={options} data={payModeData} />
+                </div>
+            </div>
+
+            <div className='row'>
+                <div className='offset-md-2 col-md-8 mb-5'>
+                    <Bar options={options} data={monthWiseData} />
                 </div>
             </div>
         </>

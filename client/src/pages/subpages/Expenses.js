@@ -131,6 +131,7 @@ const Expenses = () => {
 
         clearInputFields();
         setExpId("");
+        setAddOrUpdate(1);
     };
 
     const deleteExp = async (id) => {
