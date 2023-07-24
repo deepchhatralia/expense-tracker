@@ -7,6 +7,7 @@ const routes = express.Router();
 const { UserModel, CategoryModel, ExpenseModel } = require('../model/index');
 
 
+
 routes.post('/validateUser', async (req, res) => {
     const inputEmail = req.body.email;
     const inputPassword = req.body.password;
@@ -52,8 +53,8 @@ async function checkIfUserExist(val) {
     return data.length;
 }
 
-async function checkIfCategoryExist(val) {
-    const data = await CategoryModel.find({ categoryName: val })
+async function checkIfCategoryExist(val, uId) {
+    const data = await CategoryModel.find({ categoryName: val, userId: uId })
 
     return data.length;
 }
@@ -80,7 +81,7 @@ routes.post('/addCategory', async (req, res) => {
     try {
         let exist = 0;
 
-        if (await checkIfCategoryExist(req.body.categoryName)) {
+        if (await checkIfCategoryExist(req.body.categoryName, req.body.userId)) {
             exist = 1;
         }
 
@@ -88,7 +89,7 @@ routes.post('/addCategory', async (req, res) => {
             res.json({ success: 1, categoryExist: exist })
             return;
         }
-        const data = await CategoryModel.create(req.body.newData)
+        const data = await CategoryModel.create(req.body)
 
         res.json({ success: 1, categoryExist: exist, data: data })
     } catch (err) {
@@ -108,7 +109,8 @@ routes.get('/getCategory', async (req, res) => {
 
 routes.get('/getCategories', async (req, res) => {
     try {
-        const data = await CategoryModel.find();
+        const userId = req.query.userId;
+        const data = await CategoryModel.find({ userId: userId });
 
         res.json(data);
     } catch (err) {

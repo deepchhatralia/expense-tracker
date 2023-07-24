@@ -13,7 +13,9 @@ const Expenses = () => {
     const mode = ["Cash", "Debit Card", "Credit Card", "UPI"];
     const [addOrUpdate, setAddOrUpdate] = useState(1);
 
+    const [userId, setUserId] = useState("");
     const [expId, setExpId] = useState("");
+
     const [allExpenses, setAllExpenses] = useState([]);
     const [expense, setExpense] = useState("");
 
@@ -24,6 +26,22 @@ const Expenses = () => {
     const [note, setNote] = useState("");
 
     const [error, setError] = useState("");
+
+    const getUserId = async () => {
+        // if (userId != "")
+        //     return userId;
+
+        const data = await checkIfLoggedIn(true);
+
+        // if token is expired than it will return 0
+        if (!data.success) {
+            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            navigate('/');
+        }
+
+        setUserId(data.userId);
+        generateCategories(data.userId);
+    }
 
     const checkValidation = () => {
         if (!(category && expense && note)) {
@@ -45,22 +63,20 @@ const Expenses = () => {
         setNote("");
     }
 
-    const generateCategories = async () => {
-        const data = await getCategories();
-
+    const generateCategories = async (uId) => {
+        // const uId = await getUserId();
+        // console.log(uId)
+        const data = await getCategories(uId);
+        // console.log(data)
         setCategories(data);
+
+        generateExpenses(uId);
     };
 
-    const generateExpenses = async () => {
-        const data = await checkIfLoggedIn(true);
+    const generateExpenses = async (userId) => {
+        // const uId = await getUserId();
 
-        // if token is expired than it will return 0
-        if (!data.success) {
-            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            navigate('/');
-        }
-
-        const res = await getExpenses(data.userId);
+        const res = await getExpenses(userId);
 
         setAllExpenses(res.data);
     }
@@ -139,14 +155,14 @@ const Expenses = () => {
             const res = await deleteExpense(id);
 
             if (res.success) {
-                generateExpenses();
+                generateExpenses(userId);
             }
         }
     };
 
     useEffect(() => {
-        generateCategories();
-        generateExpenses();
+        getUserId();
+
     }, []);
 
     return (

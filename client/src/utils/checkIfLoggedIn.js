@@ -26,7 +26,8 @@ const checkIfLoggedIn = (getUser = false) => {
         return 0;
     }
 
-    cookie = cookie.substring(6);
+    // cookie = cookie.substring(6);
+    cookie = cookie.substring(7);
 
     return checkTokenIsValid(cookie, getUser);
 }
