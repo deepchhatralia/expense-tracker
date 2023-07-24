@@ -14,7 +14,7 @@ const ShowExpenses = ({ allExpenses = [], loadExpForUpdate, deleteExp }) => {
     return (
         <>
             <div>
-                <table className="table">
+                <table className="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Sr No</th>
