@@ -27,10 +27,10 @@ const checkIfLoggedIn = (getUser = false) => {
     }
 
     // for hosting
-    // cookie = cookie.substring(6);
+    cookie = cookie.substring(6);
 
     // for local machine
-    cookie = cookie.substring(7);
+    // cookie = cookie.substring(7);
 
     return checkTokenIsValid(cookie, getUser);
 }
