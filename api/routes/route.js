@@ -7,6 +7,7 @@ const routes = express.Router();
 const { UserModel, CategoryModel, ExpenseModel } = require('../model/index');
 
 
+
 routes.post('/validateUser', async (req, res) => {
     const inputEmail = req.body.email;
     const inputPassword = req.body.password;
