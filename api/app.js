@@ -12,6 +12,8 @@ const PORT = process.env.PORT;
 const API_KEY = process.env.API_KEY;
 
 // function validateApiKey(req, res, next) {
+//     console.log(req.headers.api);
+//     // next();
 //     if (req.headers.api != API_KEY) {
 //         res.status(401).json({ success: 0, msg: "Request denied" });
 //     }

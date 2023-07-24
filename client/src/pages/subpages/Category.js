@@ -1,15 +1,37 @@
 import { useEffect, useState } from "react";
 import ShowCatgeories from "../../components/ShowCatgeories";
 import { getCategory, getCategories, updateCategory, deleteCategory, addCategory } from "../../utils/fetchData";
+import { checkIfLoggedIn } from "../../utils/checkIfLoggedIn";
+import { useNavigate } from "react-router-dom";
 
 const Category = () => {
+    const navigate = useNavigate();
+
     const [addOrUpdate, setAddOrUpdate] = useState(1);
     const [error, setError] = useState("");
+
+    const [userId, setUserId] = useState("");
 
     const [catId, setCatId] = useState("");
     const [categoryName, setCategoryName] = useState("");
 
     const [allCategories, setAllCategories] = useState([]);
+
+    const getUserId = async () => {
+        if (userId != "")
+            return userId;
+
+        const data = await checkIfLoggedIn(true);
+
+        // if token is expired than it will return 0
+        if (!data.success) {
+            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            navigate('/');
+        }
+
+        setUserId(data.userId);
+        generateCategories(data.userId);
+    }
 
     const checkValidation = () => {
         if (!categoryName) {
@@ -20,9 +42,8 @@ const Category = () => {
         return 1;
     }
 
-    const generateCategories = async () => {
-        const res = await getCategories();
-
+    const generateCategories = async (uId) => {
+        const res = await getCategories(uId);
         setAllCategories(res);
     };
 
@@ -40,7 +61,7 @@ const Category = () => {
         if (!checkValidation()) {
             return;
         }
-        let res = await addCategory({ categoryName });
+        let res = await addCategory({ userId: userId, categoryName: categoryName });
 
         if (res.categoryExist) {
             setError("Already exist");
@@ -73,16 +94,16 @@ const Category = () => {
         if (window.confirm("Are you sure to delete ??")) {
             let res = await deleteCategory(id);
 
-
             if (res.success) {
                 // setAllCategories(prev => prev.map(val => val._id != res.data._id && val))
-                generateCategories();
+                generateCategories(userId);
             }
         }
     };
 
     useEffect(() => {
-        generateCategories();
+        getUserId();
+        // generateCategories();
     }, []);
 
     return (

@@ -6,6 +6,14 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 // axios.defaults.headers.common['Content-Type'] = 'application/json';
 // axios.defaults.headers.common['api'] = API_KEY;
 
+const header = {
+    headers: {
+        'Content-Type': 'application/json',
+        'api-key': API_KEY,
+        // Add any other custom headers specific to this request
+    },
+};
+
 const addUser = async (data) => {
     try {
         const res = await axios.post(BACKEND_URL + "addUser", data);
@@ -56,9 +64,9 @@ const getCategory = async (id) => {
 }
 
 // returns all categories to show to the user 
-const getCategories = async () => {
+const getCategories = async (userId) => {
     try {
-        const res = await axios.get(BACKEND_URL + '/getCategories');
+        const res = await axios.get(BACKEND_URL + '/getCategories?userId=' + userId);
 
         return res.data;
     } catch (err) {
@@ -68,7 +76,7 @@ const getCategories = async () => {
 
 const addCategory = async (obj) => {
     try {
-        const res = await axios.post(BACKEND_URL + '/addCategory', { newData: obj });
+        const res = await axios.post(BACKEND_URL + '/addCategory', obj);
 
         return res.data;
     } catch (err) {

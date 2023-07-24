@@ -62,11 +62,11 @@ const Login = () => {
 
                     <form onSubmit={handleFormSubmit}>
                         <div className="form-outline mb-4">
-                            <input type="email" id="form2Example" className="form-control" placeholder='Email address' value={email} onChange={e => setEmail(e.target.value)} />
+                            <input type="email" id="email" className="form-control" placeholder='Email address' value={email} onChange={e => setEmail(e.target.value)} />
                         </div>
 
                         <div className="form-outline mb-4">
-                            <input type="password" id="form2Example" className="form-control" placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} />
+                            <input type="password" id="password" className="form-control" placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} />
                         </div>
 
                         <p style={{ fontSize: "14px", color: "red", fontStyle: "italic" }}>{error}</p>
