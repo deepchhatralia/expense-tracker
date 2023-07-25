@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import { checkIfLoggedIn } from "../utils/checkIfLoggedIn";
-// import { getExpenses } from "../utils/fetchData";
-// import { all } from "axios";
-
 import UpdateIcon from '@mui/icons-material/Update';
 import DeleteIcon from '@mui/icons-material/Delete';
 
