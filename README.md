@@ -1,6 +1,6 @@
 # Expense Tracker
 
-The Expense Tracker is a web application that helps users track their expenses. It allows users to perform CRUD operations on expenses under different categories.
+The Expense Tracker is a web application built with React.js, Node.js, Express, and MongoDB. The app serves as a tool for users to track their expenses, providing CRUD operations, as well as categorizing them. It incorporates user authentication using JWT (JSON Web Tokens) to ensure secure access to personal expense data. The backend uses the Express framework to handle API requests and interacts with MongoDB for data storage.
 
 ## Features
 
