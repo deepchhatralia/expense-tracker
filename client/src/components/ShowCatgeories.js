@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const ShowCatgeories = ({ allCategories, loadCatForUpdate, deleteCat }) => {
     return (
         <>
-            <table className="table table-striped table-bordered table-hover">
+            <table className="table table-striped table-bordered table-hover mb-5">
                 <thead>
                     <tr>
                         <th scope="col">Sr No.</th>
