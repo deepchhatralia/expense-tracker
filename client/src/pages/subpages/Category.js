@@ -113,7 +113,7 @@ const Category = () => {
                     <div className="mb-3 row">
                         <label htmlFor="amt" className="col-md-2 col-form-label">Category Name</label>
                         <div className="col-md-5">
-                            <input type="text" className="form-control" id="amt"
+                            <input maxLength={20} type="text" className="form-control" id="amt"
                                 value={categoryName}
                                 onChange={e => setCategoryName(val => e.target.value)} />
                         </div>
