@@ -52,6 +52,10 @@ const Expenses = () => {
             setError("Invalid expense value");
             return 0;
         }
+        if (expense > 100000) {
+            setError("Expense cannot be more than 1,00,000");
+            return 0;
+        }
         setError("");
         return 1;
     }
@@ -210,7 +214,7 @@ const Expenses = () => {
                     <div className="mb-3 row">
                         <label htmlFor="note" className="col-md-2 col-form-label">Note</label>
                         <div className="col-md-5">
-                            <textarea className="form-control" id="note" rows="3"
+                            <textarea maxLength={100} className="form-control" id="note" rows="3"
                                 value={note}
                                 onChange={e => setNote(val => e.target.value)}></textarea>
                         </div>
