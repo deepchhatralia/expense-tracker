@@ -25,22 +25,22 @@ const ShowExpenses = ({ allExpenses = [], loadExpForUpdate, deleteExp }) => {
                     </thead>
                     <tbody>
                         {allExpenses ? allExpenses.map((val, index) => {
-                            const { _id, category, date, expense, note, paymentMode } = val;
+                            // const { _id, category, date, expense, note, paymentMode } = val;
                             return (
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th>
-                                    <td>{category}</td>
-                                    <td>{expense}</td>
-                                    <td>{note}</td>
-                                    <td>{paymentMode}</td>
-                                    <td>{date}</td>
+                                    <td>{val["category"]}</td>
+                                    <td>{val["expense"]}</td>
+                                    <td>{val["note"]}</td>
+                                    <td>{val["paymentMode"]}</td>
+                                    <td>{val["date"]}</td>
                                     <td>
-                                        <button onClick={() => loadExpForUpdate(_id)} className="tableBtns" title="update">
+                                        <button onClick={() => loadExpForUpdate(val["_id"])} className="tableBtns" title="update">
                                             {<UpdateIcon />}
                                         </button>
                                     </td>
                                     <td>
-                                        <button onClick={() => deleteExp(_id)} className="tableBtns" title="delete">
+                                        <button onClick={() => deleteExp(val["_id"])} className="tableBtns" title="delete">
                                             {<DeleteIcon />}
                                         </button>
                                     </td>
