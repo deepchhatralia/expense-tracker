@@ -30,6 +30,8 @@ const Home = () => {
             <footer>
                 &copy; 2023 Expense Tracker
             </footer> */}
+
+
             <div className="main-body">
                 <div className="container">
                     <div className="row">
@@ -40,16 +42,7 @@ const Home = () => {
                         </div>
 
                         <div className="offset-md-1 col-md-5 d-flex align-items-center justify-content-center flex-row">
-                            {/* <div className="my-3">
-                                <button className="w-50 btn btn-primary">Login</button>
-                            </div>
-                            <div className="my-3">
-                                <button className="w-50 btn btn btn-outline-secondary text-light">Sign up</button>
-                            </div> */}
-
-                            {/* <div>
-                            </div> */}
-                            <button onClick={handleGetStartedClick} className="w-75 btn btn-outline-secondary text-light">
+                            <button onClick={handleGetStartedClick} className="w-75 btn btn-outline-secondary text-light border border-warning">
                                 <h4 className="m-0">Get Started</h4>
                             </button>
                         </div>

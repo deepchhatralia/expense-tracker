@@ -3,10 +3,11 @@ body {
     margin: 0;
     padding: 0;
 
-    background-color: #2049AD;
+    /* background-color: #2049AD; */
 }
 
 .main-body {
+    background-color: #2049AD;
     color: white;
     display: flex;
     align-items: center;
