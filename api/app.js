@@ -15,19 +15,23 @@ const expense = require('./routes/expense');
 const PORT = process.env.PORT;
 
 const API_KEY = process.env.API_KEY;
+// const API_KEY = "THISISAPRIVATEAPIKEY";
 
-// function validateApiKey(req, res, next) {
-//     console.log(req.headers.api);
-//     // next();
-//     if (req.headers.api != API_KEY) {
-//         res.status(401).json({ success: 0, msg: "Request denied" });
-//     }
-//     next();
-// }
 
-// app.use(validateApiKey);
+
+function validateApiKey(req, res, next) {
+    // next();
+    if (req.headers["api-key"] !== API_KEY) {
+        res.status(401).json({ success: 0, msg: "Request denied" });
+    } else {
+        next();
+    }
+}
 
 app.use(cors());
+
+app.use('/api/v1', validateApiKey);
+
 app.use(express.json());
 
 // app.use('/api/v1', routes);

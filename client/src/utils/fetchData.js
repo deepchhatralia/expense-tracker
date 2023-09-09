@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
+// const API_KEY = "THISISAPRIVATEAPIKEY";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 // axios.defaults.headers.common['Content-Type'] = 'application/json';
 // axios.defaults.headers.common['api'] = API_KEY;
 
-const header = {
+const config = {
     headers: {
         'Content-Type': 'application/json',
         'api-key': API_KEY,
@@ -16,7 +17,7 @@ const header = {
 
 const addUser = async (data) => {
     try {
-        const res = await axios.post(BACKEND_URL + "user/addUser", data);
+        const res = await axios.post(BACKEND_URL + "user/addUser", data, config);
 
         return res.data;
     } catch (err) {
@@ -25,8 +26,9 @@ const addUser = async (data) => {
 };
 
 const validateUser = async (data) => {
+    console.log(API_KEY);
     try {
-        const res = await axios.post(BACKEND_URL + "user/validateUser", data);
+        const res = await axios.post(BACKEND_URL + "user/validateUser", data, config);
 
         return res.data;
     } catch (err) {
@@ -38,7 +40,8 @@ const checkToken = async (inputToken) => {
     try {
         const config = {
             headers: {
-                token: inputToken
+                token: inputToken,
+                "api-key": API_KEY
             }
         };
 
@@ -55,7 +58,7 @@ const checkToken = async (inputToken) => {
 // returns only one category for updation
 const getCategory = async (id) => {
     try {
-        const res = await axios.get(BACKEND_URL + 'category/getCategory?id=' + id);
+        const res = await axios.get(BACKEND_URL + 'category/getCategory?id=' + id, config);
 
         return res.data;
     } catch (err) {
@@ -66,7 +69,7 @@ const getCategory = async (id) => {
 // returns all categories to show to the user 
 const getCategories = async (userId) => {
     try {
-        const res = await axios.get(BACKEND_URL + 'category/getCategories?userId=' + userId);
+        const res = await axios.get(BACKEND_URL + 'category/getCategories?userId=' + userId, config);
 
         return res.data;
     } catch (err) {
@@ -76,7 +79,7 @@ const getCategories = async (userId) => {
 
 const addCategory = async (obj) => {
     try {
-        const res = await axios.post(BACKEND_URL + 'category/addCategory', obj);
+        const res = await axios.post(BACKEND_URL + 'category/addCategory', obj, config);
 
         return res.data;
     } catch (err) {
@@ -86,7 +89,7 @@ const addCategory = async (obj) => {
 
 const updateCategory = async (id, obj) => {
     try {
-        const res = await axios.put(BACKEND_URL + 'category/updateCategory', { id: id, updatedData: obj });
+        const res = await axios.put(BACKEND_URL + 'category/updateCategory', { id: id, updatedData: obj }, config);
 
         return res.data;
     } catch (err) {
@@ -96,7 +99,7 @@ const updateCategory = async (id, obj) => {
 
 const deleteCategory = async (_id) => {
     try {
-        const res = await axios.delete(BACKEND_URL + 'category/deleteCategory', { data: { id: _id } });
+        const res = await axios.delete(BACKEND_URL + 'category/deleteCategory', { data: { id: _id } }, config);
 
         return res.data;
     } catch (err) {
@@ -109,7 +112,7 @@ const deleteCategory = async (_id) => {
 // returns only one expense for updation
 const getExpense = async (id) => {
     try {
-        const res = await axios.get(BACKEND_URL + 'expense/getExpense?id=' + id);
+        const res = await axios.get(BACKEND_URL + 'expense/getExpense?id=' + id, config);
 
         return res.data;
     } catch (err) {
@@ -122,7 +125,7 @@ const getExpenses = async (userid) => {
     // here id is userId, so to only show expenses belonging to a particular user
 
     try {
-        const res = await axios.get(BACKEND_URL + 'expense/getExpenses?id=' + userid);
+        const res = await axios.get(BACKEND_URL + 'expense/getExpenses?id=' + userid, config);
 
         return res.data;
     } catch (err) {
@@ -132,7 +135,7 @@ const getExpenses = async (userid) => {
 
 const getExpenseByCategory = async (userId, category) => {
     try {
-        const res = await axios.get(BACKEND_URL + `expense/getExpenseByCategory?category=${category}&userId=${userId}`)
+        const res = await axios.get(BACKEND_URL + `expense/getExpenseByCategory?category=${category}&userId=${userId}`, config)
 
         return res.data;
     } catch (err) {
@@ -142,7 +145,7 @@ const getExpenseByCategory = async (userId, category) => {
 
 const addExpense = async (obj) => {
     try {
-        const res = await axios.post(BACKEND_URL + 'expense/addExpense', obj);
+        const res = await axios.post(BACKEND_URL + 'expense/addExpense', obj, config);
 
         return res.data;
     } catch (err) {
@@ -152,7 +155,7 @@ const addExpense = async (obj) => {
 
 const updateExpense = async (id, obj) => {
     try {
-        const res = await axios.put(BACKEND_URL + 'expense/updateExpense', { id: id, updatedData: obj });
+        const res = await axios.put(BACKEND_URL + 'expense/updateExpense', { id: id, updatedData: obj }, config);
 
         return res.data;
     } catch (err) {
@@ -162,7 +165,7 @@ const updateExpense = async (id, obj) => {
 
 const deleteExpense = async (_id) => {
     try {
-        const res = await axios.delete(BACKEND_URL + 'expense/deleteExpense', { data: { id: _id } });
+        const res = await axios.delete(BACKEND_URL + 'expense/deleteExpense', { data: { id: _id } }, config);
 
         return res.data;
     } catch (err) {
