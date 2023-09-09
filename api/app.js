@@ -32,9 +32,9 @@ app.use(express.json());
 
 // app.use('/api/v1', routes);
 
-app.use('/api/v1', user);
-app.use('/api/v1', category);
-app.use('/api/v1', expense);
+app.use('/api/v1/user', user);
+app.use('/api/v1/category', category);
+app.use('/api/v1/expense', expense);
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
