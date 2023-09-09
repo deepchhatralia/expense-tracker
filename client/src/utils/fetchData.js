@@ -26,7 +26,6 @@ const addUser = async (data) => {
 };
 
 const validateUser = async (data) => {
-    console.log(API_KEY);
     try {
         const res = await axios.post(BACKEND_URL + "user/validateUser", data, config);
 

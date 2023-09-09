@@ -5,8 +5,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-// const routes = require('./routes/route');
-
 const user = require('./routes/user');
 const category = require('./routes/category');
 const expense = require('./routes/expense');
@@ -15,7 +13,6 @@ const expense = require('./routes/expense');
 const PORT = process.env.PORT;
 
 const API_KEY = process.env.API_KEY;
-// const API_KEY = "THISISAPRIVATEAPIKEY";
 
 
 
@@ -33,8 +30,6 @@ app.use(cors());
 app.use('/api/v1', validateApiKey);
 
 app.use(express.json());
-
-// app.use('/api/v1', routes);
 
 app.use('/api/v1/user', user);
 app.use('/api/v1/category', category);
