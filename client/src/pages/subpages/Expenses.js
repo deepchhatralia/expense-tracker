@@ -44,11 +44,11 @@ const Expenses = () => {
     }
 
     const checkValidation = () => {
-        if (!(category && expense && note)) {
+        if (!(paymentMode && category && expense && note)) {
             setError("Please enter all details");
             return 0;
         }
-        if (expense == 0) {
+        if (expense === 0) {
             setError("Invalid expense value");
             return 0;
         }
@@ -63,7 +63,7 @@ const Expenses = () => {
     const clearInputFields = () => {
         setExpense("");
         setCategory(0);
-        setPaymentMode("");
+        setPaymentMode(0);
         setNote("");
     }
 
@@ -99,10 +99,14 @@ const Expenses = () => {
         }
 
         const obj = { userId: user.userId, category: category, paymentMode: mode[paymentMode], expense: expense, note: note };
+        console.log("Before");
+        console.log(obj);
 
         // const obj = { userId: user.userId, category: "testing", paymentMode: "cash", expense: 500, note: "testing" };
 
         const data = await addExpense(obj);
+        console.log("After");
+        console.log(data)
 
         setAllExpenses(val => {
             return [data.data, ...val]
@@ -113,7 +117,7 @@ const Expenses = () => {
 
     const loadExpForUpdate = async (id) => {
         const res = await getExpense(id);
-        const { _id: _id, category: _category, date: _date, expense: _expense, note: _note, paymentMode: _paymentMode } = res.data[0];
+        const { _id, category: _category, date: _date, expense: _expense, note: _note, paymentMode: _paymentMode } = res.data[0];
 
         setExpId(_id);
         setExpense(_expense);
@@ -141,7 +145,7 @@ const Expenses = () => {
 
         setAllExpenses(val => {
             const temp = val.map(data => {
-                if (data._id != res.data._id) {
+                if (data._id !== res.data._id) {
                     return data;
                 }
                 return res.data;
@@ -166,7 +170,6 @@ const Expenses = () => {
 
     useEffect(() => {
         getUserId();
-
     }, []);
 
     return (
@@ -187,8 +190,11 @@ const Expenses = () => {
                             <select id='payment-mode' className="form-select"
                                 value={paymentMode}
                                 onChange={e => setPaymentMode(val => e.target.value)}>
+
+                                <option value={0} disabled>Select payment mode</option>
+
                                 {mode.map((val, index) => {
-                                    return <option key={index} value={index}>{val}</option>
+                                    return <option key={index + 1} value={index}>{val}</option>
                                 })}
                             </select>
                         </div>

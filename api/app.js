@@ -7,6 +7,7 @@ const cors = require('cors');
 
 const routes = require('./routes/route');
 
+
 const PORT = process.env.PORT;
 
 const API_KEY = process.env.API_KEY;
@@ -24,6 +25,8 @@ const API_KEY = process.env.API_KEY;
 
 app.use(cors());
 app.use(express.json());
+
 app.use('/api/v1', routes);
+
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
