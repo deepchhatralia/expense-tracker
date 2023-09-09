@@ -5,7 +5,11 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-const routes = require('./routes/route');
+// const routes = require('./routes/route');
+
+const user = require('./routes/user');
+const category = require('./routes/category');
+const expense = require('./routes/expense');
 
 
 const PORT = process.env.PORT;
@@ -26,7 +30,11 @@ const API_KEY = process.env.API_KEY;
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/v1', routes);
+// app.use('/api/v1', routes);
+
+app.use('/api/v1', user);
+app.use('/api/v1', category);
+app.use('/api/v1', expense);
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
